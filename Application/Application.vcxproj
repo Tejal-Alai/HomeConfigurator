@@ -109,7 +109,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="resources\Application.qrc" />
-    <QtUic Include="Application.ui" />
     <QtMoc Include="headers\Application.h" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="main.cpp" />

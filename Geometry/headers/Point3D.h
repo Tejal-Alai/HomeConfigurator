@@ -8,7 +8,7 @@ public:
     //constructors and destructors
     Point3D();
     Point3D(double inX, double inY, double inZ);
-    ~Point3D() = default;
+    ~Point3D();
 
     //Accessor Functions
 
