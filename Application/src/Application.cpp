@@ -52,15 +52,32 @@ void Application::setupUi() {
     //Add Wall Button
     mAddWallButton = new QPushButton("Add Wall", this);
     mAddWallButton->setGeometry(QRect(1670, 50, 80, 24));
+    mAddWallButton->setStyleSheet("QPushButton {"
+        "   background-color: #4CAF50;"  // Green background
+        "   color: white;"              // White text
+        "   border: 1px solid #4CAF50;" // Green border
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #45a049;"  // Darker green on hover
+        "}");
 
     //Wall List
     mWallList = new QListWidget(this);
     mWallList->setGeometry(QRect(1550, 80, 331, 171));
 
     //Change Length
-    mLength = new QPushButton("Length",this);
+    mLength = new QPushButton("Length", this);
     mLength->setObjectName("Length");
     mLength->setGeometry(QRect(1570, 390, 80, 24));
+    mLength->setStyleSheet("QPushButton {"
+        "   background-color: #3498db;"  // Blue background
+        "   color: white;"               // White text
+        "   border: 1px solid #3498db;"  // Blue border
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #2980b9;"  // Darker blue on hover
+        "}");
+
 
     mDoubleSpinBoxLength = new QDoubleSpinBox(this);
     mDoubleSpinBoxLength->setObjectName("doubleSpinBoxLength");
@@ -94,6 +111,14 @@ void Application::setupUi() {
     mTranslateButton = new QPushButton("Translate", this);
     mTranslateButton->setObjectName("mTranslateButton");
     mTranslateButton->setGeometry(QRect(1555, 490, 80, 24));
+    mTranslateButton->setStyleSheet("QPushButton {"
+        "   background-color: #e74c3c;"  // Red background
+        "   color: white;"                // White text
+        "   border: 1px solid #e74c3c;"   // Red border
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #c0392b;"  // Darker red on hover
+        "}");
 
     //Translate by X
     QLabel* labelTranslateX = new QLabel("X :", this);
@@ -131,6 +156,14 @@ void Application::setupUi() {
     //Reset screen
     mResetButton = new QPushButton("Reset", this);
     mResetButton->setGeometry(QRect(1660, 590, 80, 24));
+    mResetButton->setStyleSheet("QPushButton {"
+        "   background-color: #95a5a6;"    // Gray background
+        "   color: white;"                 // White text
+        "   border: 1px solid #95a5a6;"    // Gray border
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #7f8c8d;"    // Darker gray on hover
+        "}");
 
     setCentralWidget(mCentralWidget);
     showMaximized();
