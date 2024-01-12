@@ -4,7 +4,7 @@
 #include <QOpenGLShaderProgram>
 #include <QPainter>
 #include "OpenGLWindow.h"
-#include "Cube.h"
+#include "Wall.h"
 
 // Constructor definition
 OpenGLWindow::OpenGLWindow(const QColor& background, QMainWindow* parent) :
@@ -130,12 +130,14 @@ void OpenGLWindow::initializeGL() {
 		"attribute lowp vec4 colAttr;\n"
 		"varying lowp vec4 col;\n"
 		"uniform highp mat4 matrix;\n"
+
 		"void main() {\n"
 		"   col = colAttr;\n"
 		"   gl_Position = matrix * posAttr;\n"
 		"}\n";
 
 	static const char* fragmentShaderSource =
+
 		"varying lowp vec4 col;\n"
 		"void main() {\n"
 		"   gl_FragColor = col;\n"
@@ -147,6 +149,7 @@ void OpenGLWindow::initializeGL() {
 	mProgram = new QOpenGLShaderProgram(this);
 	mProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
 	mProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
+
 	mProgram->link();
 	m_posAttr = mProgram->attributeLocation("posAttr");
 	Q_ASSERT(m_posAttr != -1);
@@ -154,6 +157,7 @@ void OpenGLWindow::initializeGL() {
 	Q_ASSERT(m_colAttr != -1);
 	m_matrixUniform = mProgram->uniformLocation("matrix");
 	Q_ASSERT(m_matrixUniform != -1);
+
 }
 
 // Reset OpenGL resources

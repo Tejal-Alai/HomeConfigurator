@@ -1,6 +1,6 @@
 // Cube.cpp
 #include "pch.h"
-#include "Cube.h"
+#include "Wall.h"
 
 Cube::Cube() : mTriangles()
 {
@@ -41,29 +41,75 @@ void Cube::calculateVertices(const Point3D& center, double length, double width,
     Point3D p7(center.x() + halfLength, center.y() + halfWidth, center.z() + halfHeight);
     Point3D p8(center.x() - halfLength, center.y() + halfWidth, center.z() + halfHeight);
 
+    // empty triangle
+    Triangle triangle = Triangle(Point3D(), Point3D(), Point3D());
+
+
     // Front face
-    mTriangles.push_back(Triangle(p1, p2, p3));
-    mTriangles.push_back(Triangle(p1, p3, p4));
+    triangle = Triangle(p1, p2, p3);
+    triangle.setNormal(Point3D(0, -1, 0));
+    mTriangles.push_back(triangle);
+
+    triangle = Triangle(p1, p3, p4);
+    triangle.setNormal(Point3D(0, -1, 0));
+    mTriangles.push_back(triangle);
+
+
 
     // Back face
-    mTriangles.push_back(Triangle(p5, p6, p7));
-    mTriangles.push_back(Triangle(p5, p7, p8));
+    triangle = Triangle(p5, p6, p7);
+    triangle.setNormal(Point3D(0, 1, 0));
+    mTriangles.push_back(triangle);
+
+    triangle = Triangle(p5, p7, p8);
+    triangle.setNormal(Point3D(0, 1, 0));
+    mTriangles.push_back(triangle);
+
+
 
     // Left face
-    mTriangles.push_back(Triangle(p1, p4, p8));
-    mTriangles.push_back(Triangle(p1, p8, p5));
+    triangle = Triangle(p1, p4, p8);
+    triangle.setNormal(Point3D(-1, 0, 0));
+    mTriangles.push_back(triangle);
+
+    triangle = Triangle(p1, p8, p5);
+    triangle.setNormal(Point3D(-1, 0, 0));
+    mTriangles.push_back(triangle);
+
+
 
     // Right face
-    mTriangles.push_back(Triangle(p2, p3, p7));
-    mTriangles.push_back(Triangle(p2, p7, p6));
+    triangle = Triangle(p2, p3, p7);
+    triangle.setNormal(Point3D(1, 0, 0));
+    mTriangles.push_back(triangle);
+
+    triangle = Triangle(p2, p7, p6);
+    triangle.setNormal(Point3D(1, 0, 0));
+    mTriangles.push_back(triangle);
+
+
 
     // Top face
-    mTriangles.push_back(Triangle(p4, p3, p7));
-    mTriangles.push_back(Triangle(p4, p7, p8));
+    triangle = Triangle(p4, p3, p7);
+    triangle.setNormal(Point3D(0, 0, 1));
+    mTriangles.push_back(triangle);
+
+    triangle = Triangle(p4, p7, p8);
+    triangle.setNormal(Point3D(0, 0, 1));
+    mTriangles.push_back(triangle);
+
+
 
     // Bottom face
-    mTriangles.push_back(Triangle(p1, p2, p6));
-    mTriangles.push_back(Triangle(p1, p6, p5));
+    triangle = Triangle(p1, p2, p6);
+    triangle.setNormal(Point3D(0, 0, 1));
+    mTriangles.push_back(triangle);
+
+    triangle = Triangle(p1, p6, p5);
+    triangle.setNormal(Point3D(0, 0, 1));
+    mTriangles.push_back(triangle);
+
+
 
     // Update member variables
     mLength = length;
@@ -111,9 +157,9 @@ void Cube::translate(double deltaX, double deltaY, double deltaZ)
     // Translate all vertices by the specified deltas
     for (Triangle& triangle : mTriangles) {
         // Point 1
-        double newX = triangle.getPoint1().x() + deltaX;
-        double newY = triangle.getPoint1().y() + deltaY;
-        double newZ = triangle.getPoint1().z() + deltaZ;
+        double newX = triangle.point1().x() + deltaX/20.0f;
+        double newY = triangle.point1().y() + deltaY / 20.0f;
+        double newZ = triangle.point1().z() + deltaZ / 20.0f;
         Point3D p;
         p.setX(newX);
         p.setY(newY);
@@ -122,9 +168,9 @@ void Cube::translate(double deltaX, double deltaY, double deltaZ)
 
 
         // Point 2
-        newX = triangle.getPoint2().x() + deltaX;
-        newY = triangle.getPoint2().y() + deltaY;
-        newZ = triangle.getPoint2().z() + deltaZ;
+        newX = triangle.point2().x() + deltaX / 20.0f;
+        newY = triangle.point2().y() + deltaY / 20.0f;
+        newZ = triangle.point2().z() + deltaZ / 20.0f;
         Point3D p1;
         p1.setX(newX);
         p1.setY(newY);
@@ -132,9 +178,9 @@ void Cube::translate(double deltaX, double deltaY, double deltaZ)
         triangle.setPoint2(p1);
 
         // Point 3
-        newX = triangle.getPoint3().x() + deltaX;
-        newY = triangle.getPoint3().y() + deltaY;
-        newZ = triangle.getPoint3().z() + deltaZ;
+        newX = triangle.point3().x() + deltaX / 20.0f;
+        newY = triangle.point3().y() + deltaY / 20.0f;
+        newZ = triangle.point3().z() + deltaZ / 20.0f;
         Point3D p2;
         p2.setX(newX);
         p2.setY(newY);

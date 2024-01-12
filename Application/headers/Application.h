@@ -4,7 +4,7 @@
 #include "Application.h"
 #include "OpenGLWindow.h"
 #include <Qvector>
-#include "Cube.h"
+#include "Wall.h"
 class OpenGLWindow;
 
 class Application : public QMainWindow {
@@ -26,7 +26,9 @@ public slots:
     void translateWall();
     void clear();
     void displayCubes();
-
+    void onTranslateXValueChanged(double newValue);
+    void onTranslateYValueChanged(double newValue);
+    void onTranslateZValueChanged(double newValue);
 private:
     // Private function for UI
     void setupUi();
@@ -43,8 +45,6 @@ private:
     // UI components
     QPushButton* mAddWallButton;
     QListWidget* mWallList;
-
-    QSpinBox* mSpinBoxWallIndex;
 
     // Widgets for manipulating cube dimensions
     QPushButton* mLength;
@@ -68,6 +68,7 @@ private:
     // Data structures for storing cube vertices, colors, and cube objects
     QVector<QVector<GLfloat>>mVertices;
     QVector<QVector<GLfloat>>mColors;
+
     QVector<Cube> mCubes;
 
 };

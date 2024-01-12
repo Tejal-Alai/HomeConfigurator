@@ -18,7 +18,7 @@ class QOpenGLPaintDevice;
 class OpenGLWindow : public QOpenGLWidget, protected QOpenGLFunctions {
 	Q_OBJECT
 
-// Signal emitted when shapes are updated
+		// Signal emitted when shapes are updated
 signals:
 	void shapesUpdated();
 
@@ -36,7 +36,7 @@ public:
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void wheelEvent(QWheelEvent* event) override;
 	void clearScreen();
-	
+
 protected:
 	// OpenGL initialization
 	void paintGL() override;
@@ -96,4 +96,3 @@ private:
 	// Zoom factor for handling mouse wheel events
 	float mZoomFactor = 1.0f;
 };
-

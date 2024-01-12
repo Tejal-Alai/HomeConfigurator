@@ -155,14 +155,14 @@
     <None Include="resource\cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Cube.h" />
+    <ClInclude Include="headers\Wall.h" />
     <ClInclude Include="headers\framework.h" />
     <ClInclude Include="headers\pch.h" />
     <ClInclude Include="headers\Point3D.h" />
     <ClInclude Include="headers\Triangle.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Cube.cpp" />
+    <ClCompile Include="src\Wall.cpp" />
     <ClCompile Include="src\Triangle.cpp" />
     <ClCompile Include="src\Point3D.cpp" />
     <ClCompile Include="src\dllmain.cpp" />

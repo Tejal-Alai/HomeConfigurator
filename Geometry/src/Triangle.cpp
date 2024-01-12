@@ -16,33 +16,44 @@ Triangle::~Triangle()
 }
 
 //Accessor functions
-const Point3D& Triangle::getPoint1() const
+Point3D Triangle::point1() const
 {
     return mPoint1;
 }
 
-const Point3D& Triangle::getPoint2() const
+Point3D Triangle::point2() const
 {
     return mPoint2;
 }
 
-const Point3D& Triangle::getPoint3() const
+Point3D Triangle::point3() const
 {
     return mPoint3;
 }
 
+Point3D Triangle::normal() const
+{
+    return mNormal;
+}
+
 // Setter methods
-void Triangle::setPoint1(const Point3D& point)
+void Triangle::setPoint1(const Point3D& inPoint)
 {
-    mPoint1 = point;
+    mPoint1 = inPoint;
 }
 
-void Triangle::setPoint2(const Point3D& point)
+void Triangle::setPoint2(const Point3D& inPoint)
 {
-    mPoint2 = point;
+    mPoint2 = inPoint;
 }
 
-void Triangle::setPoint3(const Point3D& point)
+void Triangle::setPoint3(const Point3D& inPoint)
 {
-    mPoint3 = point;
+    mPoint3 = inPoint;
 }
+
+void Triangle::setNormal(const Point3D& inNormal)
+{
+    mNormal = inNormal;
+}
+   

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Application.h"
-#include "Cube.h"
+#include "Wall.h"
 
 Application::Application(QWindow* parent) : QMainWindow(nullptr)
 {
@@ -11,6 +11,9 @@ Application::Application(QWindow* parent) : QMainWindow(nullptr)
     connect(mHeight, &QPushButton::clicked, this, &Application::changeHeight);
     connect(mTranslateButton, &QPushButton::clicked, this, &Application::translateWall);
     connect(mResetButton, &QPushButton::clicked, this, &Application::clear);
+    connect(mDoubleSpinBoxTranslateX, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Application::onTranslateXValueChanged);
+    connect(mDoubleSpinBoxTranslateY, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Application::onTranslateYValueChanged);
+    connect(mDoubleSpinBoxTranslateZ, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Application::onTranslateZValueChanged);
 }
 
 Application::~Application()
@@ -31,15 +34,15 @@ void Application::setupUi() {
 
     //Application Title Label
 
-    QLabel* label = new QLabel("Home Configurator", mCentralWidget);
-    label->setObjectName("label");
-    label->setGeometry(QRect(625, 0, 378, 45));
-    QFont font;
-    font.setFamilies({ QString::fromUtf8("Nirmala UI") });
-    font.setPointSize(24);
-    font.setBold(true);
-    label->setFont(font);
-    label->setLayoutDirection(Qt::LeftToRight);
+    //QLabel* label = new QLabel("Home Configurator", mCentralWidget);
+    //label->setObjectName("label");
+    //label->setGeometry(QRect(625, 0, 378, 45));
+    //QFont font;
+    //font.setFamilies({ QString::fromUtf8("Nirmala UI") });
+    //font.setPointSize(24);
+    //font.setBold(true);
+    //label->setFont(font);
+    //label->setLayoutDirection(Qt::LeftToRight);
 
     //OpenGL Window
     mRenderer = new OpenGLWindow(QColor(0, 0, 0), this);
@@ -53,23 +56,6 @@ void Application::setupUi() {
     //Wall List
     mWallList = new QListWidget(this);
     mWallList->setGeometry(QRect(1550, 80, 331, 171));
-
-
-    //Wall Index
-    QLabel* labelWallIndex = new QLabel("Wall Index", mCentralWidget);
-    labelWallIndex->setGeometry(QRect(1670, 290, 71, 31));
-
-    QFont font1;
-    font1.setBold(true);
-    labelWallIndex->setFont(font1);
-    labelWallIndex->setFrameShape(QFrame::Box);
-    labelWallIndex->setFrameShadow(QFrame::Plain);
-    labelWallIndex->setLineWidth(3);
-
-
-    mSpinBoxWallIndex = new QSpinBox(mCentralWidget);
-    mSpinBoxWallIndex->setObjectName("mSpinBoxWallIndex");
-    mSpinBoxWallIndex->setGeometry(QRect(1680, 340, 51, 22));
 
     //Change Length
     mLength = new QPushButton("Length",this);
@@ -160,13 +146,16 @@ void Application::displayCubes()
     {
         QVector<GLfloat> vertices;
         QVector<GLfloat> colors;
+        QVector<GLfloat> normals;
 
         const std::vector<Triangle> gt = cube.getTriangles();
         for (Triangle t : gt)
         {
-            Point3D p1 = t.getPoint1();
-            Point3D p2 = t.getPoint2();
-            Point3D p3 = t.getPoint3();
+            Point3D p1 = t.point1();
+            Point3D p2 = t.point2();
+            Point3D p3 = t.point3();
+
+
 
             vertices << p1.x() << p1.y() << p1.z();
             vertices << p2.x() << p2.y() << p2.z();
@@ -175,6 +164,7 @@ void Application::displayCubes()
             colors << 1 << 1 << 1;
             colors << 1 << 1 << 1;
             colors << 1 << 1 << 1;
+
         }
 
         mVertices.push_back(vertices);
@@ -190,7 +180,9 @@ void Application::addWall()
     mCubes.push_back(c);
     displayCubes();
 
-    QString itemText = QString("Wall %1").arg(mCubes.size());
+    int cubeSize =mCubes.size();
+
+    QString itemText = QString("Wall %1").arg(cubeSize);
     QListWidgetItem* newItem = new QListWidgetItem(itemText);
     mWallList->addItem(newItem);
 }
@@ -198,27 +190,33 @@ void Application::addWall()
 //slot to change length of wall
 void Application::changeLength()
 {
-    double changeLength = mDoubleSpinBoxLength->value();
-    int selectedIndex = mSpinBoxWallIndex->value();
-    mCubes[selectedIndex].setLength(changeLength);
-    displayCubes();
+    QModelIndex currentIndex = mWallList->currentIndex();
+   double changeLength = mDoubleSpinBoxLength->value();
+  
+    int currInd = currentIndex.row();
+    mCubes[currInd].setLength(changeLength);
+    displayCubes();     
 }
 
 //slot to change width of wall
 void Application::changeWidth()
 {
+    QModelIndex currentIndex = mWallList->currentIndex();
     double changeWidth = mDoubleSpinBoxWidth->value();
-    int selectedIndex = mSpinBoxWallIndex->value();
-    mCubes[selectedIndex].setWidth(changeWidth);
+
+    int currInd = currentIndex.row();
+    mCubes[currInd].setWidth(changeWidth);
     displayCubes();
 }
 
 //slot to change height of wall
 void Application::changeHeight()
 {
+    QModelIndex currentIndex = mWallList->currentIndex();
     double changeHeight = mDoubleSpinBoxHeight->value();
-    int selectedIndex = mSpinBoxWallIndex->value();
-    mCubes[selectedIndex].setHeight(changeHeight);
+
+    int currInd = currentIndex.row();
+    mCubes[currInd].setHeight(changeHeight);
     displayCubes();
 }
 
@@ -228,8 +226,40 @@ void Application::translateWall()
     double translateX = mDoubleSpinBoxTranslateX->value();
     double translateY = mDoubleSpinBoxTranslateY->value();
     double translateZ = mDoubleSpinBoxTranslateZ->value();
+    QModelIndex currentIndex = mWallList->currentIndex();
+    int currInd = currentIndex.row();
+    mCubes[currInd].translate(translateX, translateY, translateZ);
+    displayCubes();
+}
+void Application::onTranslateXValueChanged(double newValue)
+{
+    double translateX = newValue;
+    double translateY = 0;
+    double translateZ = 0;
+    QModelIndex currentIndex = mWallList->currentIndex();
+    int currInd = currentIndex.row();
+    mCubes[currInd].translate(translateX, translateY, translateZ);
+    displayCubes();
+}
 
-    int selectedIndex = mSpinBoxWallIndex->value();
-    mCubes[selectedIndex].translate(translateX, translateY, translateZ);
+void Application::onTranslateYValueChanged(double newValue)
+{
+    double translateX = 0;
+    double translateY = newValue;
+    double translateZ = 0;
+    QModelIndex currentIndex = mWallList->currentIndex();
+    int currInd = currentIndex.row();
+    mCubes[currInd].translate(translateX, translateY, translateZ);
+    displayCubes();
+}
+
+void Application::onTranslateZValueChanged(double newValue)
+{
+    double translateX = 0;
+    double translateY = 0;
+    double translateZ = newValue;
+    QModelIndex currentIndex = mWallList->currentIndex();
+    int currInd = currentIndex.row();
+    mCubes[currInd].translate(translateX, translateY, translateZ);
     displayCubes();
 }
