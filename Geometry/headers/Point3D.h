@@ -22,7 +22,7 @@ public:
     void setY(double y);
     void setZ(double z);
 
-    //Comparison operator
+    
 
     bool operator == (const Point3D& other) const;
 
