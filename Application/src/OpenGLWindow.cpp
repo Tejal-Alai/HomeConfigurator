@@ -33,7 +33,7 @@ void OpenGLWindow::setColorOfLines(QVector<GLfloat>& colorOfLines)
 }
 
 // Update data for rendering a single shape
-void OpenGLWindow::updateData(const QVector<GLfloat>& vertices, const QVector<GLfloat>& colors)
+void OpenGLWindow::updateShapeData(const QVector<GLfloat>& vertices, const QVector<GLfloat>& colors)
 {
 	this->mVertices = vertices;
 	this->mColors = colors;
@@ -41,7 +41,7 @@ void OpenGLWindow::updateData(const QVector<GLfloat>& vertices, const QVector<GL
 }
 
 // Update data for rendering multiple shapes
-void OpenGLWindow::updateData(const QVector<QVector<GLfloat>> vertices, const QVector<QVector<GLfloat>> colors)
+void OpenGLWindow::updateShapesData(const QVector<QVector<GLfloat>> vertices, const QVector<QVector<GLfloat>> colors)
 {
 	mShapeVertices = vertices;
 	mShapeColors = colors;
@@ -49,18 +49,38 @@ void OpenGLWindow::updateData(const QVector<QVector<GLfloat>> vertices, const QV
 }
 
 // Handle mouse move events for rotation
-void OpenGLWindow::mouseMoveEvent(QMouseEvent* event) {
+void OpenGLWindow::mouseMoveEvent(QMouseEvent* event)
+
+{
+
 	int dx = event->x() - mLastPos.x();
+
 	int dy = event->y() - mLastPos.y();
 
-	if (event->buttons() & Qt::LeftButton) {
-		QQuaternion rotX = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, 0.5f * dx);
-		QQuaternion rotY = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, 0.5f * dy);
+	if (event->buttons() & Qt::LeftButton)
+
+	{
+
+		QQuaternion rotX = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, 0.1f * dx);
+
+		QQuaternion rotY = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, 0.1f * dy);
 
 		mRotationAngle = rotX * rotY * mRotationAngle;
-		update();
+
 	}
+
+	else if (event->buttons() & Qt::RightButton)
+
+	{
+
+		mPanTranslationFactor += QVector3D(0.1f * dx, -0.1f * dy, 0.0f);
+
+	}
+
 	mLastPos = event->pos();
+
+	update();
+
 }
 
 // Handle mouse wheel events for zooming
@@ -88,16 +108,16 @@ void OpenGLWindow::clearScreen()
 
 // Draw a shape using specified vertices and colors
 void OpenGLWindow::drawShape(QVector<GLfloat> vertices, QVector<GLfloat> colors) {
-	glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, vertices.data());
-	glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, colors.data());
+	glVertexAttribPointer(mPosAttr, 3, GL_FLOAT, GL_FALSE, 0, vertices.data());
+	glVertexAttribPointer(mColAttr, 3, GL_FLOAT, GL_FALSE, 0, colors.data());
 
-	glEnableVertexAttribArray(m_posAttr);
-	glEnableVertexAttribArray(m_colAttr);
+	glEnableVertexAttribArray(mPosAttr);
+	glEnableVertexAttribArray(mColAttr);
 
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 3);
 
-	glDisableVertexAttribArray(m_posAttr);
-	glDisableVertexAttribArray(m_colAttr);
+	glDisableVertexAttribArray(mPosAttr);
+	glDisableVertexAttribArray(mColAttr);
 }
 
 // Render the scene
@@ -112,7 +132,7 @@ void OpenGLWindow::paintGL() {
 	matrix.translate(0, 0, -2);
 	matrix.scale(mZoomFactor);
 
-	mProgram->setUniformValue(m_matrixUniform, matrix);
+	mProgram->setUniformValue(mMatrixUniform, matrix);
 
 	GLfloat* verticesData = mVerticesOfOriginalLine.data();
 	GLfloat* colorsData = mColorsOfOrignalLine.data();
@@ -151,12 +171,12 @@ void OpenGLWindow::initializeGL() {
 	mProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
 
 	mProgram->link();
-	m_posAttr = mProgram->attributeLocation("posAttr");
-	Q_ASSERT(m_posAttr != -1);
-	m_colAttr = mProgram->attributeLocation("colAttr");
-	Q_ASSERT(m_colAttr != -1);
-	m_matrixUniform = mProgram->uniformLocation("matrix");
-	Q_ASSERT(m_matrixUniform != -1);
+	mPosAttr = mProgram->attributeLocation("posAttr");
+	Q_ASSERT(mPosAttr != -1);
+	mColAttr = mProgram->attributeLocation("colAttr");
+	Q_ASSERT(mColAttr != -1);
+	mMatrixUniform = mProgram->uniformLocation("matrix");
+	Q_ASSERT(mMatrixUniform != -1);
 
 }
 

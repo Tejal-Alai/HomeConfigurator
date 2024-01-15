@@ -23,9 +23,8 @@ public slots:
     void changeLength();
     void changeWidth();
     void changeHeight();
-    void translateWall();
     void clear();
-    void displayCubes();
+    void displayWalls();
     void onTranslateXValueChanged(double newValue);
     void onTranslateYValueChanged(double newValue);
     void onTranslateZValueChanged(double newValue);
@@ -69,6 +68,6 @@ private:
     QVector<QVector<GLfloat>>mVertices;
     QVector<QVector<GLfloat>>mColors;
 
-    QVector<Cube> mCubes;
+    std::vector<Wall> mWalls;
 
 };

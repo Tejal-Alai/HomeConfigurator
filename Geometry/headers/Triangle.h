@@ -16,7 +16,6 @@ public:
     Point3D point3() const;
     Point3D normal() const;
 
-
     // Setter functions
     void setPoint1(const Point3D& inPoint);
     void setPoint2(const Point3D& inPoint);

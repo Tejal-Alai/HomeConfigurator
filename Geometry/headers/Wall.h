@@ -1,28 +1,32 @@
-// Cube.h
 #pragma once
 #include "Triangle.h"
 #include <vector>
 
-class GEOMETRY_API Cube
+class GEOMETRY_API Wall
 {
 public:
+	static Wall* getWall();
+	static Wall* getWall(const Point3D& center, double sideLength);
+	~Wall();
+private:	
 	// Constructors and destructor
-	Cube();
-	Cube(const Point3D& center, double sideLength);
-	~Cube();
+	Wall();
+	Wall(const Point3D& center, double sideLength);
+    
 
+public:
 	// Accessor function
 	const std::vector<Triangle>& getTriangles() const;
-	double getLength() const;
-	double getWidth() const;
-	double getHeight() const;
+	double length() const;
+	double width() const;
+	double height() const;
 
 	// Setters for dimensions
 	void setLength(double length);
 	void setWidth(double width);
 	void setHeight(double height);
 
-	// Function to translate the Cube
+	// Function to translate the Wall
 	void translate(double deltaX, double deltaY, double deltaZ);
 
 private:

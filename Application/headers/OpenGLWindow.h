@@ -31,8 +31,8 @@ public:
 
 	void setVectorOfLines(QVector<GLfloat>& vectorOfLines);
 	void setColorOfLines(QVector<GLfloat>& colorOfLines);
-	void updateData(const QVector<GLfloat>& vertices, const QVector<GLfloat>& colors);
-	void updateData(const QVector<QVector<GLfloat>> vertices, const QVector<QVector<GLfloat>> colors);
+	void updateShapeData(const QVector<GLfloat>& vertices, const QVector<GLfloat>& colors);
+	void updateShapesData(const QVector<QVector<GLfloat>> vertices, const QVector<QVector<GLfloat>> colors);
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void wheelEvent(QWheelEvent* event) override;
 	void clearScreen();
@@ -65,9 +65,9 @@ private:
 	QOpenGLBuffer mVbo;
 
 	// Attribute and uniform locations
-	GLint m_posAttr = 0;
-	GLint m_colAttr = 0;
-	GLint m_matrixUniform = 0;
+	GLint mPosAttr = 0;
+	GLint mColAttr = 0;
+	GLint mMatrixUniform = 0;
 
 	// Background color
 	QColor mBackground;
@@ -80,6 +80,8 @@ private:
 
 	// Last mouse position
 	QPoint mLastPos;
+
+	QVector3D mPanTranslationFactor;
 
 	// Original line vertices and colors
 	QVector<GLfloat> mVerticesOfOriginalLine;
