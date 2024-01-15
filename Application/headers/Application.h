@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QtWidgets/QMainWindow>
 #include "Application.h"
 #include "OpenGLWindow.h"

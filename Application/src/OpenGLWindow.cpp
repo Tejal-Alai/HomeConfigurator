@@ -50,9 +50,7 @@ void OpenGLWindow::updateShapesData(const QVector<QVector<GLfloat>> vertices, co
 
 // Handle mouse move events for rotation
 void OpenGLWindow::mouseMoveEvent(QMouseEvent* event)
-
 {
-
 	int dx = event->x() - mLastPos.x();
 
 	int dy = event->y() - mLastPos.y();
@@ -60,7 +58,6 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* event)
 	if (event->buttons() & Qt::LeftButton)
 
 	{
-
 		QQuaternion rotX = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, 0.1f * dx);
 
 		QQuaternion rotY = QQuaternion::fromAxisAndAngle(1.0f, 0.0f, 0.0f, 0.1f * dy);
@@ -72,9 +69,7 @@ void OpenGLWindow::mouseMoveEvent(QMouseEvent* event)
 	else if (event->buttons() & Qt::RightButton)
 
 	{
-
 		mPanTranslationFactor += QVector3D(0.1f * dx, -0.1f * dy, 0.0f);
-
 	}
 
 	mLastPos = event->pos();

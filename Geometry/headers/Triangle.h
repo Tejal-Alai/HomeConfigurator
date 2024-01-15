@@ -4,6 +4,7 @@
 
 class GEOMETRY_API Triangle
 {
+
 public:
     // Constructors and destructor
     Triangle();
