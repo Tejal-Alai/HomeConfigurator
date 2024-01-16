@@ -16,7 +16,9 @@ Application::Application(QWindow* parent) : QMainWindow(nullptr)
 }
 
 Application::~Application()
-{}
+{
+
+}
 
 void Application::clear()
 {

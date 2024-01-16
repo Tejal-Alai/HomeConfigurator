@@ -13,7 +13,6 @@ Point3D::Point3D(double inX, double inY, double inZ)
     mZ = inZ;
 }
 
-
 Point3D::~Point3D()
 {
 }
@@ -25,12 +24,10 @@ double Point3D::x() const
     return mX;
 }
 
-
 double Point3D::y() const
 {
     return mY;
 }
-
 
 double Point3D::z() const
 {
@@ -42,7 +39,6 @@ double Point3D::z() const
 void Point3D::setX(double x) {
     mX = x;
 }
-
 
 void Point3D::setY(double y) {
     mY = y;

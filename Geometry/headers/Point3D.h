@@ -22,8 +22,6 @@ public:
     void setY(double y);
     void setZ(double z);
 
-    
-
     bool operator == (const Point3D& other) const;
 
 private:

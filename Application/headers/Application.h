@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QtWidgets/QMainWindow>
 #include "Application.h"
 #include "OpenGLWindow.h"
@@ -46,17 +45,13 @@ private:
     QListWidget* mWallList;
 
     // Widgets for manipulating cube dimensions
-    QPushButton* mLength;
     QDoubleSpinBox* mDoubleSpinBoxLength;
 
-    QPushButton* mHeight;
     QDoubleSpinBox* mDoubleSpinBoxHeight;
 
-    QPushButton* mWidth;
     QDoubleSpinBox* mDoubleSpinBoxWidth;
   
     // Widgets for translating walls
-    QPushButton* mTranslateButton;
     QDoubleSpinBox* mDoubleSpinBoxTranslateX;
     QDoubleSpinBox* mDoubleSpinBoxTranslateY;
     QDoubleSpinBox* mDoubleSpinBoxTranslateZ;
